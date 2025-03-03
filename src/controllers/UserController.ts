@@ -5,6 +5,10 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   try {
     const users = await User.find();
     res.json(users);
+
+    if (!users) {
+      res.status(404).json({message: "No users to return at this time... try running seed data?"})
+    }
   } catch (err) {
     res.status(500).json(err);
   }
