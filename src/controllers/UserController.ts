@@ -10,10 +10,12 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   }
 };
 
-//   TODO: Make this return the populated thought and friend data, if it has any.
 export const getSingleUser = async (req: Request, res: Response) => {
   try {
-    const user = await User.findOne({ _id: req.params.userId }).select("-__v");
+    const user = await User.findOne({ _id: req.params.userId })
+      .select("-__v")
+      .populate("thoughts")
+      .populate("friends");
 
     if (!user) {
       res.status(404).json({ message: "No user with that ID" });
@@ -36,15 +38,40 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    // TODO: const updateUserData = to find and update a user
-  } catch (err) {}
+    const updateUserData = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!updateUserData) {
+      res.status(404).json({ message: "No user with that ID" });
+    } else {
+      res.json(updateUserData);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    // TODO: Find user to delete
+    const deleteUserData = await User.findOneAndDelete({
+      _id: req.params.userId,
+    });
+
+    if (!deleteUserData) {
+      res.status(404).json({ message: "No user with that ID" });
+    } else {
+      res.json(deleteUserData);
+    }
   } catch (err) {
-    // TODO: if user id does not exist, return "User does not exist"
-    // TODO: if user cannot be deleted for reasons other than it not existing, return "User could not be deleted"
+    res.status(500).json(err);
   }
 };
+
+// /api/users/:userId/friends/:friendId
+
+//     POST to add a new friend to a user's friend list
+
+//     DELETE to remove a friend from a user's friend list
