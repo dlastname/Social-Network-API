@@ -6,8 +6,8 @@ import {
   createThought,
   updateThought,
   deleteThought,
-  addReaction,
-  deleteReaction,
+//   addReaction,
+//   deleteReaction,
 } from "../../controllers/ThoughtsController";
 // /api/thoughts
 //     GET to get all thoughts, POST create a thought
