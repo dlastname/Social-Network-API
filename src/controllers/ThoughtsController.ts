@@ -50,7 +50,6 @@ export const createThought = async (req: Request, res: Response) => {
     } else {
       res.json(newThoughtData);
     }
-    res.json(newThoughtData);
   } catch (err) {
     res.status(500).json(err);
   }
