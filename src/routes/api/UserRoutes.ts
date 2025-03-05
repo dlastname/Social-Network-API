@@ -6,7 +6,9 @@ import {
   createUser,
   updateUser,
   deleteUser,
-} from "../../controllers/UserController";
+  addFriend,
+  deleteFriend
+} from "../../controllers/UserController.js";
 
 // /api/users
 //     at /"" GET all users, POST create a user
@@ -16,14 +18,13 @@ router.route("/").get(getAllUsers).post(createUser);
 //  GET a single user by its _id and populated thought and friend data,
 // PUT to update a user by its _id
 // DELETE to remove user by its _id
-// TODO: update to have the body params in here
 router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 // /api/users/:userId/friends/:friendId
-
 //     POST to add a new friend to a user's friend list
 
 //     DELETE to remove a friend from a user's friend list
+router.route("/:userId/friends/:friendId").post(addFriend).delete(deleteFriend);
 
 
 export default router;

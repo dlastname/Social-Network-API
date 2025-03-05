@@ -1,6 +1,5 @@
-import Thought from "../models/Thought";
 import { Request, Response } from "express";
-import User from "../models/User";
+import { User, Thought } from "../models/index.js";
 
 export const getAllThoughts = async (_req: Request, res: Response) => {
   try {
@@ -44,16 +43,13 @@ export const createThought = async (req: Request, res: Response) => {
     if (!updatedUser) {
       // If no user is found, delete the thought and return an error
       await Thought.findByIdAndDelete(newThoughtData._id);
-      res
-        .status(404)
-        .json({
-          message:
-            "No user found with this username! Thought deleted. Please try again with a new thought.",
-        });
+      res.status(404).json({
+        message:
+          "No user found with this username! Thought deleted. Please try again with a new thought.",
+      });
     } else {
       res.json(newThoughtData);
     }
-    res.json(newThoughtData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -62,7 +58,7 @@ export const createThought = async (req: Request, res: Response) => {
 //     PUT to update a thought by its _id
 export const updateThought = async (req: Request, res: Response) => {
   try {
-    const updateThoughtData = await User.findOneAndUpdate(
+    const updateThoughtData = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { new: true, runValidators: true }
@@ -81,8 +77,10 @@ export const updateThought = async (req: Request, res: Response) => {
 //     DELETE to remove a thought by its _id
 export const deleteThought = async (req: Request, res: Response) => {
   try {
-    const deleteThoughtData = await User.findOneAndDelete({
-      _id: req.params.thoughtId,
+    const thought = req.params.thoughtId;
+    
+    const deleteThoughtData = await Thought.findOneAndDelete({
+      _id: thought,
     });
 
     if (!deleteThoughtData) {
