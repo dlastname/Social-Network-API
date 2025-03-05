@@ -1,16 +1,16 @@
 import { Schema, model, Document, Types } from "mongoose";
-import reactionSchema, { IReaction } from "./Reaction"; // Import the Reaction schema and interface
+import reactionSchema, { IReaction } from "./Reaction.js"; // Import the Reaction schema and interface
 
 // Define the Thought interface
 interface IThought extends Document {
   thoughtText: string;
   createdAt: Date;
   // Single username referring to the User model
-  username: string; 
+  username: string;
   // Array of Reaction subdocuments
-  reactions: Types.DocumentArray<IReaction>; 
+  reactions: Types.DocumentArray<IReaction>;
   // Virtual property to get the number of reactions
-  reactionCount: number; 
+  reactionCount: number;
 }
 
 const thoughtSchema = new Schema<IThought>(
@@ -28,17 +28,17 @@ const thoughtSchema = new Schema<IThought>(
     username: {
       type: String,
       required: true,
-// Reference to the User model
-      ref: "User", 
+      // Reference to the User model
+      ref: "User",
     },
     // Bug fix: Embed the Reaction schema as an array
-    reactions: [reactionSchema], 
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
-      virtuals: true, 
+      virtuals: true,
     },
-    id: false, 
+    id: false,
   }
 );
 
