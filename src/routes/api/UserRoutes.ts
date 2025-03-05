@@ -6,6 +6,8 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  addFriend,
+  deleteFriend
 } from "../../controllers/UserController.js";
 
 // /api/users
@@ -19,10 +21,10 @@ router.route("/").get(getAllUsers).post(createUser);
 router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 // /api/users/:userId/friends/:friendId
-
 //     POST to add a new friend to a user's friend list
 
 //     DELETE to remove a friend from a user's friend list
+router.route("/:userId/friends/:friendId").post(addFriend).delete(deleteFriend);
 
 
 export default router;

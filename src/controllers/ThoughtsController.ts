@@ -59,7 +59,7 @@ export const createThought = async (req: Request, res: Response) => {
 //     PUT to update a thought by its _id
 export const updateThought = async (req: Request, res: Response) => {
   try {
-    const updateThoughtData = await User.findOneAndUpdate(
+    const updateThoughtData = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { new: true, runValidators: true }
@@ -80,12 +80,12 @@ export const deleteThought = async (req: Request, res: Response) => {
   try {
     const thought = req.params.thoughtId;
     
-    const deleteThoughtData = await User.findOneAndDelete({
+    const deleteThoughtData = await Thought.findOneAndDelete({
       _id: thought,
     });
 
     if (!deleteThoughtData) {
-      res.status(404).json({ message: "Hi nerd, No thought with that ID" });
+      res.status(404).json({ message: "No thought with that ID" });
     } else {
       res.json(deleteThoughtData);
     }
