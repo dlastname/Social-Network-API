@@ -1,7 +1,15 @@
-import { Schema } from "mongoose";
+import { Schema, Types, Document } from "mongoose";
+
+// Define the Reaction interface
+export interface IReaction extends Document {
+  reactionId: Types.ObjectId;
+  reactionBody: string;
+  username: string;
+  createdAt: Date;
+}
 
 // Define the Reaction schema
-const reactionSchema = new Schema(
+const reactionSchema = new Schema<IReaction>(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
@@ -18,8 +26,7 @@ const reactionSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now, // Default value is the current timestamp
-      get: (timestamp: Date) => timestamp.toISOString(), // Format timestamp on query
+      default: Date.now,
     },
   },
   {
